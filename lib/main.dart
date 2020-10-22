@@ -7,6 +7,7 @@ import 'package:boilerplate/di/modules/preference_module.dart';
 import 'package:boilerplate/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/post/post_store.dart';
+import 'package:boilerplate/stores/product/product_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/ui/splash/splash.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
   // with Hot Reload than creating it directly in the `build` function.
   final ThemeStore _themeStore = ThemeStore(appComponent.getRepository());
   final PostStore _postStore = PostStore(appComponent.getRepository());
+  final ProductStore _productStore = ProductStore(appComponent.getRepository());
   final LanguageStore _languageStore =
       LanguageStore(appComponent.getRepository());
 
@@ -53,6 +55,7 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<ThemeStore>(create: (_) => _themeStore),
         Provider<PostStore>(create: (_) => _postStore),
+        Provider<ProductStore>(create: (_) => _productStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
       ],
       child: Observer(

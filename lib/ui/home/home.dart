@@ -2,6 +2,7 @@ import 'package:boilerplate/data/sharedpref/constants/preferences.dart';
 import 'package:boilerplate/routes.dart';
 import 'package:boilerplate/stores/language/language_store.dart';
 import 'package:boilerplate/stores/post/post_store.dart';
+import 'package:boilerplate/stores/product/product_store.dart';
 import 'package:boilerplate/stores/theme/theme_store.dart';
 import 'package:boilerplate/utils/locale/app_localization.dart';
 import 'package:boilerplate/widgets/progress_indicator_widget.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //stores:---------------------------------------------------------------------
   PostStore _postStore;
+  ProductStore _productStore;
   ThemeStore _themeStore;
   LanguageStore _languageStore;
 
@@ -36,10 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _languageStore = Provider.of<LanguageStore>(context);
     _themeStore = Provider.of<ThemeStore>(context);
     _postStore = Provider.of<PostStore>(context);
+    _productStore = Provider.of<ProductStore>(context);
 
     // check to see if already called api
-    if (!_postStore.loading) {
-      _postStore.getPosts();
+    if (!_productStore.loading) {
+      _productStore.getProducts();
     }
   }
 
@@ -128,9 +131,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildListView() {
-    return _postStore.postList != null
+    return _productStore.productList != null
         ? ListView.separated(
-            itemCount: _postStore.postList.posts.length,
+            itemCount: _productStore.productList.products.length,
             separatorBuilder: (context, position) {
               return Divider();
             },
@@ -143,6 +146,21 @@ class _HomeScreenState extends State<HomeScreen> {
               AppLocalizations.of(context).translate('home_tv_no_post_found'),
             ),
           );
+    // return _postStore.postList != null
+    //     ? ListView.separated(
+    //         itemCount: _postStore.postList.posts.length,
+    //         separatorBuilder: (context, position) {
+    //           return Divider();
+    //         },
+    //         itemBuilder: (context, position) {
+    //           return _buildListItem(position);
+    //         },
+    //       )
+    //     : Center(
+    //         child: Text(
+    //           AppLocalizations.of(context).translate('home_tv_no_post_found'),
+    //         ),
+    //       );
   }
 
   Widget _buildListItem(int position) {
@@ -150,14 +168,14 @@ class _HomeScreenState extends State<HomeScreen> {
       dense: true,
       leading: Icon(Icons.cloud_circle),
       title: Text(
-        '${_postStore.postList.posts[position].title}',
+        '${_productStore.productList.products[position].name}',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         softWrap: false,
         style: Theme.of(context).textTheme.title,
       ),
       subtitle: Text(
-        '${_postStore.postList.posts[position].body}',
+        '${_productStore.productList.products[position].id}',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         softWrap: false,
@@ -223,7 +241,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(
                     color: _languageStore.locale == object.locale
                         ? Theme.of(context).primaryColor
-                        : _themeStore.darkMode ? Colors.white : Colors.black,
+                        : _themeStore.darkMode
+                            ? Colors.white
+                            : Colors.black,
                   ),
                 ),
                 onTap: () {

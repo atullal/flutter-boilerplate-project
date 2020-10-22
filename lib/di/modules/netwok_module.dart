@@ -1,4 +1,5 @@
 import 'package:boilerplate/data/network/apis/posts/post_api.dart';
+import 'package:boilerplate/data/network/apis/products/product_api.dart';
 import 'package:boilerplate/data/network/constants/endpoints.dart';
 import 'package:boilerplate/data/network/dio_client.dart';
 import 'package:boilerplate/data/network/rest_client.dart';
@@ -78,6 +79,11 @@ class NetworkModule extends PreferenceModule {
   @singleton
   PostApi providePostApi(DioClient dioClient, RestClient restClient) =>
       PostApi(dioClient, restClient);
+
+  @provide
+  @singleton
+  ProductApi provideProductApi(DioClient dioClient, RestClient restClient) =>
+      ProductApi(dioClient, restClient);
 // Api Providers End:---------------------------------------------------------
 
 }

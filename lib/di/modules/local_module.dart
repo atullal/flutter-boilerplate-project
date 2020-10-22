@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:boilerplate/data/local/constants/db_constants.dart';
 import 'package:boilerplate/data/local/datasources/post/post_datasource.dart';
+import 'package:boilerplate/data/local/datasources/product/product_datasource.dart';
 import 'package:boilerplate/data/network/apis/posts/post_api.dart';
+import 'package:boilerplate/data/network/apis/products/product_api.dart';
 import 'package:boilerplate/data/repository.dart';
 import 'package:boilerplate/data/sharedpref/shared_preference_helper.dart';
 import 'package:boilerplate/utils/encryption/xxtea.dart';
@@ -67,6 +69,10 @@ class LocalModule extends NetworkModule {
   @singleton
   PostDataSource providePostDataSource() => PostDataSource(database);
 
+  @provide
+  @singleton
+  ProductDataSource provideProductDataSource() => ProductDataSource(database);
+
   // DataSources End:-----------------------------------------------------------
 
   /// A singleton repository provider.
@@ -75,9 +81,11 @@ class LocalModule extends NetworkModule {
   @provide
   @singleton
   Repository provideRepository(
-    PostApi postApi,
-    SharedPreferenceHelper preferenceHelper,
-    PostDataSource postDataSource,
-  ) =>
-      Repository(postApi, preferenceHelper, postDataSource);
+          PostApi postApi,
+          ProductApi productApi,
+          SharedPreferenceHelper preferenceHelper,
+          PostDataSource postDataSource,
+          ProductDataSource productDataSource) =>
+      Repository(postApi, productApi, preferenceHelper, postDataSource,
+          productDataSource);
 }
