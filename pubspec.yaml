@@ -58,6 +58,13 @@ dependencies:
   # translation, plurals and genders, date/number formatting and parsing, and bidirectional text.
   intl: ^0.16.1
 
+  #Carousel Slider
+  carousel_slider: ^2.3.1
+  #Carousel
+  carousel_pro: ^1.0.0
+    #snaplist
+  snaplist: ^0.1.8
+
   # Dependency injection
   inject:
     git:
@@ -127,6 +134,12 @@ flutter:
       style: italic
     - asset: assets/fonts/Product-Sans-Bold.ttf
       weight: 700
-
+  - family: Poppins
+    fonts:
+    - asset: assets/fonts/Poppins-Medium.ttf
+    - asset: assets/fonts/Poppins-Bold.ttf
+      weight: 800
+    - asset: assets/fonts/Poppins-ExtraBold.ttf
+      weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages

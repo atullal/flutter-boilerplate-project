@@ -23,7 +23,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
 
     return Material(
-      child: Center(child: AppIconWidget(image: Assets.appLogo)),
+      child: Center(
+        child: Text('GROCERS',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+        color: Colors.cyan[200],
+        fontSize: 40,
+        fontFamily: 'Poppins'
+        ),
+      )),
     );
   }
 

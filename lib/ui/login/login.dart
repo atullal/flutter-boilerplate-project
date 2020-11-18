@@ -46,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,10 +63,21 @@ class _LoginScreenState extends State<LoginScreen> {
           MediaQuery.of(context).orientation == Orientation.landscape
             ? Row(
                 children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: _buildLeftSide(),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Colors.blue, Colors.red
+                        ]
+                        )
+                      ),
                   ),
+                  // Expanded(
+                  //   flex: 1,
+                  //   //child: _buildLeftSide(),
+                  // ),
                   Expanded(
                     flex: 1,
                     child: _buildRightSide(),
@@ -94,14 +104,14 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLeftSide() {
-    return SizedBox.expand(
-      child: Image.asset(
-        Assets.carBackground,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
+  // Widget _buildLeftSide() {
+  //   return SizedBox.expand(
+  //     child: Image.asset(
+  //       Assets.carBackground,
+  //       fit: BoxFit.cover,
+  //     ),
+  //   );
+  // }
 
   Widget _buildRightSide() {
     return SingleChildScrollView(
@@ -112,12 +122,20 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            AppIconWidget(image: 'assets/icons/ic_appicon.png'),
+            Text('GROCERS',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.cyan[200],
+                fontSize: 40,
+                fontFamily: 'Poppins'
+                ),
+              ),
             SizedBox(height: 24.0),
             _buildUserIdField(),
             _buildPasswordField(),
             _buildForgotPasswordButton(),
-            _buildSignInButton()
+            _buildSignInButton(),
+            _buildSignUpButton(),
           ],
         ),
       ),
@@ -128,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Observer(
       builder: (context) {
         return TextFieldWidget(
-          hint: AppLocalizations.of(context).translate('login_et_user_email'),
+          hint: 'Email',
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
           iconColor: _themeStore.darkMode ? Colors.white70 : Colors.black54,
@@ -151,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Observer(
       builder: (context) {
         return TextFieldWidget(
-          hint: AppLocalizations.of(context).translate('login_et_user_password'),
+          hint: 'Password',
           isObscure: true,
           padding: EdgeInsets.only(top: 16.0),
           icon: Icons.lock,
@@ -177,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
           style: Theme.of(context)
               .textTheme
               .caption
-              .copyWith(color: Colors.orangeAccent),
+              .copyWith(color: Colors.black),
         ),
         onPressed: () {},
       ),
@@ -185,10 +203,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildSignInButton() {
-    return RoundedButtonWidget(
-      buttonText: AppLocalizations.of(context).translate('login_btn_sign_in'),
-      buttonColor: Colors.orangeAccent,
-      textColor: Colors.white,
+    return FlatButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: Colors.black)
+      ),
+      color: Colors.white,
+      textColor: Colors.black,
+      padding: EdgeInsets.all(6.0),
       onPressed: () async {
         if (_store.canLogin) {
           DeviceUtils.hideKeyboard(context);
@@ -197,6 +219,41 @@ class _LoginScreenState extends State<LoginScreen> {
           _showErrorMessage('Please fill in all fields');
         }
       },
+      child: Text(
+        "Sign In".toUpperCase(),
+        style: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+
+   Widget _buildSignUpButton() {
+    return FlatButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(color: Colors.black)
+      ),
+      color: Colors.white,
+      textColor: Colors.black,
+      padding: EdgeInsets.all(6.0),
+      onPressed: () async {
+        if (_store.canLogin) {
+          DeviceUtils.hideKeyboard(context);
+          _store.login();
+        } else {
+          _showErrorMessage('Please fill in all fields');
+        }
+      },
+      child: Text(
+        "Sign Up".toUpperCase(),
+        style: TextStyle(
+          fontSize: 14.0,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 
